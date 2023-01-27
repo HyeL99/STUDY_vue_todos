@@ -4,7 +4,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import router from "@/router";
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://my-json-server.typicode.com/HyeL99/Vue-todos-pwa';
 
 Vue.use(Vuex);
 
@@ -55,7 +55,7 @@ export default new Vuex.Store({
     },
     getUserEmailList({commit,dispatch}){
       let userEmailList = null;
-      axios.get(BASE_URL + '/userData')
+      axios.get(`${BASE_URL}/userData`)
           .then(res => {
             userEmailList = res.data
           })
@@ -71,7 +71,7 @@ export default new Vuex.Store({
     addAccount(context,userData){
       console.log(userData)
       let userEmail = userData.email;
-      axios.post('http://localhost:3000/userData',{
+      axios.post(`${BASE_URL}/userData`,{
         id:uuidv4(),
         email:userEmail,
         todos:[],
@@ -102,7 +102,7 @@ export default new Vuex.Store({
         if(item.name === itemName) item.isDone = !item.isDone;
       })
       console.log(todos, itemName)
-      axios.put(`http://localhost:3000/userData/${context.state.accountData.id}`,{
+      axios.put(`${BASE_URL}/userData/${context.state.accountData.id}`,{
         email:context.state.accountData.email,
         id: context.state.accountData.id,
         todos: todos
@@ -114,7 +114,7 @@ export default new Vuex.Store({
         alert('아이템이 중복됩니다.')
       } else {
         todos.push({name: newItem, isDone: false});
-        axios.put(`http://localhost:3000/userData/${context.state.accountData.id}`,{
+        axios.put(`${BASE_URL}/userData/${context.state.accountData.id}`,{
           email:context.state.accountData.email,
           id: context.state.accountData.id,
           todos: todos
@@ -130,7 +130,7 @@ export default new Vuex.Store({
         let todos = context.state.accountData.todos;
         let resArray = todos.filter(item => item.name !== deleteItem);
         console.log(todos)
-        axios.put(`http://localhost:3000/userData/${context.state.accountData.id}`,{
+        axios.put(`${BASE_URL}/userData/${context.state.accountData.id}`,{
           email:context.state.accountData.email,
           id: context.state.accountData.id,
           todos: resArray
@@ -142,7 +142,7 @@ export default new Vuex.Store({
       if(!res){
         alert('삭제 취소되었습니다.')
       } else {
-        axios.put(`http://localhost:3000/userData/${context.state.accountData.id}`,{
+        axios.put(`${BASE_URL}/userData/${context.state.accountData.id}`,{
           email:context.state.accountData.email,
           id: context.state.accountData.id,
           todos: []
